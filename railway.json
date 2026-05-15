@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "java -jar taskflow-backend/target/*.jar",
+    "startCommand": "java -jar taskflow-backend/target/taskflow-backend-0.0.1-SNAPSHOT.jar",
     "healthcheckPath": "/actuator/health",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
