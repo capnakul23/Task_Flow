@@ -30,6 +30,6 @@ export default function ProjectRow({ project, index = 0 }) {
         </div>
       </td>
       <td className="px-3 py-3 text-sm text-jira-text-subtle">{formatDistanceToNow(new Date(project.updatedAt || project.createdAt), { addSuffix: true })}</td>
-    </tr>
+    </motion.tr>
   )
 }
