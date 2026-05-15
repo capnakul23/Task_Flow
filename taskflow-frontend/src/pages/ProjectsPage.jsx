@@ -38,7 +38,7 @@ export default function ProjectsPage() {
       toast.error(error?.response?.data?.message || 'Failed to create project')
     }
   }
-
+  return (
     <div className="min-h-screen">
       <TopBar breadcrumb={[{ label: 'Projects' }]} actionLabel="Create project" onAction={() => setOpen(true)} />
       <div className="p-8 md:p-12 max-w-7xl mx-auto">

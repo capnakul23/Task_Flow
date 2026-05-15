@@ -99,21 +99,34 @@ export default function BoardPage() {
   }
 
   return (
-    <div>
-      <TopBar breadcrumb={[{ label: 'Projects', to: '/projects' }, { label: project?.name || 'Project' }, { label: 'Board' }]} actionLabel={project?.myRole === 'ADMIN' ? 'Create issue' : undefined} onAction={() => { setInitialStatus('TODO'); setModalOpen(true) }} />
-      <div className="flex flex-col gap-3 border-b border-jira-border px-4 py-3 sm:flex-row sm:items-center sm:px-6">
-        <div className="w-full sm:w-72"><Input placeholder="Search issues" value={search} onChange={(event) => setSearch(event.target.value)} /></div>
-        <Button variant="secondary" size="sm" onClick={load}>Refresh</Button>
-      </div>
-      <KanbanBoard
-        issues={visibleIssues}
-        canCreate={currentUserRole === 'ADMIN'}
-        onIssueClick={(issue) => { setSelectedIssue(issue); setPanelOpen(true) }}
-        onCreateIssue={(status) => { setInitialStatus(status); setModalOpen(true) }}
+    <div className="min-h-screen bg-[#fafafa]">
+      <TopBar 
+        breadcrumb={[{ label: 'Projects', to: '/projects' }, { label: project?.name || 'Project' }, { label: 'Board' }]} 
+        actionLabel={project?.myRole === 'ADMIN' ? 'Create issue' : undefined} 
+        onAction={() => { setInitialStatus('TODO'); setModalOpen(true) }} 
       />
+      <div className="flex flex-col gap-4 border-b border-[var(--border-color)] bg-white px-8 py-4 sm:flex-row sm:items-center">
+        <div className="w-full sm:w-80">
+          <Input 
+            placeholder="Search issues..." 
+            value={search} 
+            onChange={(event) => setSearch(event.target.value)} 
+            className="!rounded-none border-[#eee] focus:border-blue-600 focus:ring-0"
+          />
+        </div>
+        <button onClick={load} className="linear-btn">Refresh</button>
+      </div>
+      <div className="px-8 py-6 overflow-x-auto h-[calc(100vh-128px)]">
+        <KanbanBoard
+          issues={visibleIssues}
+          canCreate={currentUserRole === 'ADMIN'}
+          onIssueClick={(issue) => { setSelectedIssue(issue); setPanelOpen(true) }}
+          onCreateIssue={(status) => { setInitialStatus(status); setModalOpen(true) }}
+        />
+      </div>
       <CreateIssueModal isOpen={modalOpen} onClose={() => setModalOpen(false)} project={activeProject} members={members} initialStatus={initialStatus} onCreate={createIssue} />
       <IssueDetailPanel isOpen={panelOpen} onClose={() => setPanelOpen(false)} issue={selectedIssue} members={members} canEdit={currentUserRole === 'ADMIN'} onSave={saveIssue} onDelete={deleteIssue} />
-      {loading && <div className="px-6 text-sm text-jira-text-subtle">Loading issues...</div>}
+      {loading && <div className="fixed bottom-8 right-8 px-4 py-2 bg-black text-white text-xs font-bold uppercase tracking-widest animate-pulse shadow-2xl">Syncing...</div>}
     </div>
   )
 }

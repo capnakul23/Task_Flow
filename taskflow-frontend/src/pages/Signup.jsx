@@ -3,18 +3,16 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, Sparkles } from 'lucide-react'
 import toast from 'react-hot-toast'
 import api from '../api/axios'
-import Input from '../components/common/Input'
-import Button from '../components/common/Button'
 import { useAuth } from '../hooks/useAuth'
 
 const schema = yup.object({
-  name: yup.string().required(),
-  email: yup.string().email().required(),
-  password: yup.string().min(8).required(),
-  confirmPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match').required()
+  name: yup.string().required('Name is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+  password: yup.string().min(8, 'Minimum 8 characters').required('Password is required'),
+  confirmPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match').required('Confirm your password')
 })
 
 export default function Signup() {
@@ -26,31 +24,86 @@ export default function Signup() {
     try {
       const response = await api.post('/auth/signup', data)
       login(response.data.token, response.data.user)
-      toast.success('Account created!')
+      toast.success('Welcome to TaskFlow')
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Signup failed')
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-jira-bg px-4">
-      <div className="w-full max-w-md rounded-lg border border-jira-border bg-jira-elevated p-10">
-        <div className="mb-2 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded bg-jira-blue text-lg font-bold text-white">T</div>
-          <div className="text-xl font-bold text-jira-text">TaskFlow</div>
+    <div className="flex min-h-screen items-center justify-center bg-[#fafafa] px-4 font-sans antialiased">
+      <div className="w-full max-w-[440px] border border-[#eee] bg-white p-12 shadow-2xl">
+        <div className="mb-10 text-center">
+          <div className="mx-auto mb-6 flex h-10 w-10 items-center justify-center bg-black text-white font-bold text-sm">T</div>
+          <h1 className="text-2xl font-bold tracking-tight text-[#111]">Create your workspace</h1>
+          <p className="mt-2 text-sm text-[#666] font-medium">Join the next generation of product teams.</p>
         </div>
-        <div className="mb-6 text-sm text-jira-text-subtle">Create your account</div>
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          <Input label="Full name" {...register('name')} error={errors.name?.message} />
-          <Input label="Email" type="email" {...register('email')} error={errors.email?.message} />
-          <div className="relative">
-            <Input label="Password" type={visible ? 'text' : 'password'} {...register('password')} error={errors.password?.message} />
-            <button type="button" className="absolute right-3 top-8 text-jira-text-subtle" onClick={() => setVisible((value) => !value)}>{visible ? <EyeOff size={16} /> : <Eye size={16} />}</button>
+
+        <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-black uppercase tracking-widest text-[#111]">Full Name</label>
+            <input 
+              placeholder="Elon Musk" 
+              {...register('name')}
+              className={`w-full border ${errors.name ? 'border-red-500' : 'border-[#eee]'} bg-white px-4 py-3 text-sm outline-none focus:border-blue-600 transition-all`}
+            />
+            {errors.name && <p className="text-[10px] font-bold text-red-500 uppercase">{errors.name.message}</p>}
           </div>
-          <Input label="Confirm password" type={visible ? 'text' : 'password'} {...register('confirmPassword')} error={errors.confirmPassword?.message} />
-          <Button className="w-full" loading={isSubmitting}>Sign up</Button>
+
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-black uppercase tracking-widest text-[#111]">Work Email</label>
+            <input 
+              type="email" 
+              placeholder="name@company.com" 
+              {...register('email')}
+              className={`w-full border ${errors.email ? 'border-red-500' : 'border-[#eee]'} bg-white px-4 py-3 text-sm outline-none focus:border-blue-600 transition-all`}
+            />
+            {errors.email && <p className="text-[10px] font-bold text-red-500 uppercase">{errors.email.message}</p>}
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5 relative">
+              <label className="text-[10px] font-black uppercase tracking-widest text-[#111]">Password</label>
+              <div className="relative">
+                <input 
+                  type={visible ? 'text' : 'password'} 
+                  placeholder="••••••••" 
+                  {...register('password')}
+                  className={`w-full border ${errors.password ? 'border-red-500' : 'border-[#eee]'} bg-white px-4 py-3 text-sm outline-none focus:border-blue-600 transition-all`}
+                />
+              </div>
+              {errors.password && <p className="text-[10px] font-bold text-red-500 uppercase">{errors.password.message}</p>}
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-black uppercase tracking-widest text-[#111]">Confirm</label>
+              <input 
+                type={visible ? 'text' : 'password'} 
+                placeholder="••••••••" 
+                {...register('confirmPassword')}
+                className={`w-full border ${errors.confirmPassword ? 'border-red-500' : 'border-[#eee]'} bg-white px-4 py-3 text-sm outline-none focus:border-blue-600 transition-all`}
+              />
+              {errors.confirmPassword && <p className="text-[10px] font-bold text-red-500 uppercase">{errors.confirmPassword.message}</p>}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 py-2">
+             <input type="checkbox" id="terms" className="h-3 w-3 border-[#eee] rounded-none checked:bg-black" required />
+             <label htmlFor="terms" className="text-[11px] font-medium text-[#666]">I agree to the <span className="text-black font-bold underline cursor-pointer">Terms of Service</span></label>
+          </div>
+
+          <button 
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-black py-4 text-xs font-black uppercase tracking-widest text-white hover:bg-[#333] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+          >
+            {isSubmitting ? 'Creating...' : <><Sparkles size={14} /> Create account</>}
+          </button>
         </form>
-        <div className="mt-6 text-sm text-jira-text-subtle">Already have an account? <Link to="/login" className="text-jira-blue-bold hover:underline">Log in</Link></div>
+
+        <div className="mt-10 text-center text-xs font-medium text-[#666]">
+          Already using TaskFlow? <Link to="/login" className="font-black text-[#111] hover:underline">Sign in</Link>
+        </div>
       </div>
     </div>
   )

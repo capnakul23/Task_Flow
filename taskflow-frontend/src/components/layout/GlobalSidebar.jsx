@@ -33,6 +33,7 @@ export default function GlobalSidebar() {
   }
 
   return (
+    <>
     <aside className="fixed left-0 top-0 z-50 hidden h-screen w-16 flex-col items-center border-r border-[var(--border-color)] bg-white py-4 md:flex">
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="mb-8">
         <Link to="/projects" className="flex h-9 w-9 items-center justify-center bg-black text-white font-bold text-sm shadow-lg">T</Link>
@@ -74,15 +75,14 @@ export default function GlobalSidebar() {
         </motion.button>
       </div>
     </aside>
-
-      <Dropdown isOpen={open} onClose={() => setOpen(false)} triggerRect={rect}>
-        <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-jira-text hover:bg-jira-overlay" onClick={() => setOpen(false)}>
-          <Users size={14} /> Profile
-        </button>
-        <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-jira-text hover:bg-jira-overlay" onClick={logout}>
-          <LogOut size={14} /> Sign out
-        </button>
-      </Dropdown>
-    </aside>
-  )
+    <Dropdown isOpen={open} onClose={() => setOpen(false)} triggerRect={rect}>
+      <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]" onClick={() => setOpen(false)}>
+        <User size={14} /> Profile
+      </button>
+      <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]" onClick={logout}>
+        <LogOut size={14} /> Sign out
+      </button>
+    </Dropdown>
+  </>
+)
 }
