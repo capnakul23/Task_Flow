@@ -33,8 +33,8 @@ export default function App() {
       <AuthProvider>
         <Toaster position="top-right" toastOptions={{ style: { background: '#282E33', color: '#B6C2CF', border: '1px solid #2C333A', borderRadius: '4px', fontSize: '14px' }, success: { iconTheme: { primary: '#4BCE97', secondary: '#282E33' } }, error: { iconTheme: { primary: '#F87168', secondary: '#282E33' } } }} />
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route element={<PublicRoute />}>
-            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
           </Route>

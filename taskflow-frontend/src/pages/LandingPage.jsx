@@ -2,7 +2,10 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { LayoutDashboard, Kanban, Users, Zap, CheckCircle2, ArrowRight } from 'lucide-react'
 
+import { useAuth } from '../hooks/useAuth'
+
 export default function LandingPage() {
+  const { isAuthenticated } = useAuth()
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -31,8 +34,14 @@ export default function LandingPage() {
           <span className="text-xl font-bold tracking-tight text-white">TaskFlow</span>
         </div>
         <div className="flex items-center gap-4">
-          <Link to="/login" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Log in</Link>
-          <Link to="/signup" className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black transition-all hover:bg-gray-200 hover:scale-105 active:scale-95">Get Started</Link>
+          {isAuthenticated ? (
+            <Link to="/projects" className="rounded-full bg-jira-blue px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-jira-blue-hover hover:scale-105 active:scale-95">Go to Dashboard</Link>
+          ) : (
+            <>
+              <Link to="/login" className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Log in</Link>
+              <Link to="/signup" className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black transition-all hover:bg-gray-200 hover:scale-105 active:scale-95">Get Started</Link>
+            </>
+          )}
         </div>
       </nav>
 
@@ -59,13 +68,22 @@ export default function LandingPage() {
           </motion.p>
 
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-            <Link to="/signup" className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-jira-blue px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-jira-blue/25 transition-all hover:bg-jira-blue-hover hover:scale-105 active:scale-95">
-              Start Planning Free
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link to="/login" className="w-full sm:w-auto rounded-full border border-gray-700 bg-gray-800/50 px-8 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition-all hover:bg-gray-700 hover:scale-105 active:scale-95">
-              View Demo Board
-            </Link>
+            {isAuthenticated ? (
+              <Link to="/projects" className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-jira-blue px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-jira-blue/25 transition-all hover:bg-jira-blue-hover hover:scale-105 active:scale-95">
+                Go to Dashboard
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            ) : (
+              <>
+                <Link to="/signup" className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-jira-blue px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-jira-blue/25 transition-all hover:bg-jira-blue-hover hover:scale-105 active:scale-95">
+                  Start Planning Free
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+                <Link to="/login" className="w-full sm:w-auto rounded-full border border-gray-700 bg-gray-800/50 px-8 py-3.5 text-base font-semibold text-white backdrop-blur-sm transition-all hover:bg-gray-700 hover:scale-105 active:scale-95">
+                  View Demo Board
+                </Link>
+              </>
+            )}
           </motion.div>
         </motion.div>
       </main>
