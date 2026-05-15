@@ -39,11 +39,24 @@ export default function ProjectsPage() {
     }
   }
 
-  return (
-    <div>
+    <div className="min-h-screen">
       <TopBar breadcrumb={[{ label: 'Projects' }]} actionLabel="Create project" onAction={() => setOpen(true)} />
-      <div className="p-6">
-        <div className="mb-6 text-2xl font-medium text-jira-text">Projects</div>
+      <div className="p-8 md:p-12 max-w-7xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="mb-8 flex items-center justify-between"
+        >
+          <h1 className="text-4xl font-black tracking-tight text-[var(--text-primary)]">Your Projects</h1>
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setOpen(true)}
+            className="rounded-full bg-jira-blue px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-jira-blue/25 hover:bg-jira-blue-hover transition-all"
+          >
+            New Project
+          </motion.button>
+        </motion.div>
         <ProjectsTable projects={projects} loading={loading} onCreate={() => setOpen(true)} />
       </div>
       <CreateProjectModal isOpen={open} onClose={() => setOpen(false)} onCreate={createProject} />

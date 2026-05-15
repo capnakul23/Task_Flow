@@ -1,15 +1,17 @@
 import { motion } from 'framer-motion'
 import { useLocation, Link } from 'react-router-dom'
-import { Home, LayoutGrid, Users, Settings, LogOut } from 'lucide-react'
+import { Home, LayoutGrid, Users, Settings, LogOut, Sun, Moon } from 'lucide-react'
 import { useState } from 'react'
 import Avatar from '../common/Avatar'
 import Dropdown from '../common/Dropdown'
 import { useAuth } from '../../hooks/useAuth'
+import { useTheme } from '../../context/ThemeContext'
 import { getLastProjectId } from '../../utils/tokenUtils'
 
 export default function GlobalSidebar() {
   const location = useLocation()
   const { user, logout } = useAuth()
+  const { isDarkMode, toggleTheme } = useTheme()
   const [open, setOpen] = useState(false)
   const [rect, setRect] = useState(null)
   const lastProjectId = getLastProjectId()
@@ -31,9 +33,9 @@ export default function GlobalSidebar() {
   }
 
   return (
-    <aside className="fixed left-0 top-0 z-50 hidden h-screen w-14 flex-col items-center border-r border-jira-border bg-jira-sidebar py-2 md:flex">
+    <aside className="fixed left-0 top-0 z-50 hidden h-screen w-14 flex-col items-center border-r border-[var(--border-color)] bg-[var(--bg-elevated)]/80 backdrop-blur-xl py-2 md:flex">
       <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-        <Link to="/projects" className="flex h-10 w-10 items-center justify-center rounded bg-jira-blue text-lg font-bold text-white shadow-lg shadow-jira-blue/20">T</Link>
+        <Link to="/projects" className="flex h-10 w-10 items-center justify-center rounded premium-gradient text-lg font-bold text-white shadow-lg shadow-jira-blue/20">T</Link>
       </motion.div>
       <nav className="mt-2 flex flex-col items-center gap-1">
         {navItems.map(({ to, icon: Icon, label }) => {
@@ -43,7 +45,7 @@ export default function GlobalSidebar() {
               <Link
                 to={to}
                 title={label}
-                className={`flex h-10 w-10 items-center justify-center rounded transition-colors ${active ? 'bg-jira-blue-bg text-jira-blue-bold' : 'text-jira-text-subtle hover:bg-jira-sidebar-icon hover:text-jira-text'}`}
+                className={`flex h-10 w-10 items-center justify-center rounded transition-all duration-300 ${active ? 'bg-jira-blue text-white shadow-md' : 'text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]'}`}
               >
                 <Icon size={18} />
               </Link>
@@ -52,7 +54,15 @@ export default function GlobalSidebar() {
         })}
       </nav>
       <div className="mt-auto pb-2 flex flex-col items-center gap-1">
-        <motion.button onClick={onAvatarClick} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="rounded-full shadow-md">
+        <motion.button 
+          onClick={toggleTheme}
+          whileHover={{ scale: 1.1, rotate: 15 }}
+          whileTap={{ scale: 0.9 }}
+          className="flex h-10 w-10 items-center justify-center rounded text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
+        >
+          {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+        </motion.button>
+        <motion.button onClick={onAvatarClick} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="rounded-full shadow-md mt-1">
           <Avatar name={user?.name || 'TaskFlow User'} size={32} color={user?.avatarColor || '#0C66E4'} />
         </motion.button>
         <motion.button
@@ -61,7 +71,7 @@ export default function GlobalSidebar() {
           title="Sign out"
           whileHover={{ scale: 1.1, color: '#F87168' }}
           whileTap={{ scale: 0.9 }}
-          className="mt-2 flex h-10 w-10 items-center justify-center rounded text-jira-text-subtle hover:bg-jira-sidebar-icon"
+          className="mt-2 flex h-10 w-10 items-center justify-center rounded text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
         >
           <LogOut size={18} />
         </motion.button>

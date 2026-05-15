@@ -94,24 +94,24 @@ export default function AppShell({ children, project, members = [], currentUserR
   ]
 
   return (
-    <div className="min-h-screen bg-jira-bg text-jira-text">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
       <GlobalSidebar />
       {showProjectSidebar && (
         <ProjectSidebar project={projectData} members={memberData} currentUserRole={role} onAddMember={handleAddMember} onRemoveMember={handleRemoveMember} />
       )}
-      <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-jira-border bg-jira-sidebar px-3 md:hidden">
+      <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-[var(--border-color)] bg-[var(--bg-elevated)]/80 backdrop-blur-xl px-3 md:hidden">
         <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
           {mobileNavItems.map(({ to, label, icon: Icon }) => {
             const active = location.pathname === to
             return (
-              <Link key={label} to={to} className={`flex items-center gap-1 rounded px-2 py-1 text-xs ${active ? 'bg-jira-blue-bg text-jira-blue-bold' : 'text-jira-text-subtle'}`}>
+              <Link key={label} to={to} className={`flex items-center gap-1 rounded px-2 py-1 text-xs ${active ? 'bg-jira-blue text-white shadow-sm' : 'text-[var(--text-secondary)]'}`}>
                 <Icon size={14} />
                 <span>{label}</span>
               </Link>
             )
           })}
         </div>
-        <button type="button" onClick={logout} className="flex items-center gap-1 rounded px-2 py-1 text-xs text-jira-text-subtle">
+        <button type="button" onClick={logout} className="flex items-center gap-1 rounded px-2 py-1 text-xs text-[var(--text-secondary)]">
           <LogOut size={14} />
           <span>Logout</span>
         </button>

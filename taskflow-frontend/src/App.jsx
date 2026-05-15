@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/AuthContext'
+import { ThemeProvider } from './context/ThemeContext'
 import { useAuth } from './hooks/useAuth'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -30,25 +31,27 @@ function ShellRoute() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <Toaster position="top-right" toastOptions={{ style: { background: '#282E33', color: '#B6C2CF', border: '1px solid #2C333A', borderRadius: '4px', fontSize: '14px' }, success: { iconTheme: { primary: '#4BCE97', secondary: '#282E33' } }, error: { iconTheme: { primary: '#F87168', secondary: '#282E33' } } }} />
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route element={<PublicRoute />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Route>
-          <Route element={<ProtectedRoute />}>
-            <Route element={<ShellRoute />}>
-              <Route path="/projects" element={<ProjectsPage />} />
-              <Route path="/projects/:id/board" element={<BoardPage />} />
-              <Route path="/projects/:id/dashboard" element={<DashboardPage />} />
-              <Route path="/projects/:id/settings" element={<ProjectSettingsPage />} />
+      <ThemeProvider>
+        <AuthProvider>
+          <Toaster position="top-right" toastOptions={{ style: { background: 'var(--bg-elevated)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', fontSize: '14px' }, success: { iconTheme: { primary: '#4BCE97', secondary: 'var(--bg-elevated)' } }, error: { iconTheme: { primary: '#F87168', secondary: 'var(--bg-elevated)' } } }} />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route element={<PublicRoute />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
             </Route>
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </AuthProvider>
+            <Route element={<ProtectedRoute />}>
+              <Route element={<ShellRoute />}>
+                <Route path="/projects" element={<ProjectsPage />} />
+                <Route path="/projects/:id/board" element={<BoardPage />} />
+                <Route path="/projects/:id/dashboard" element={<DashboardPage />} />
+                <Route path="/projects/:id/settings" element={<ProjectSettingsPage />} />
+              </Route>
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   )
 }

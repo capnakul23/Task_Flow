@@ -12,24 +12,40 @@ export default function ProjectRow({ project, index = 0 }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.3 }}
-      className="border-b border-jira-border transition-colors hover:bg-jira-surface"
+      className="transition-colors hover:bg-[var(--bg-secondary)]/50 group"
     >
-      <td className="px-3 py-3">
+      <td className="px-6 py-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-7 w-7 items-center justify-center rounded bg-jira-blue text-xs font-bold text-white">{project.keyCode?.[0] || project.name?.[0]}</div>
-          <Link to={`/projects/${project.id}/board`} className="text-sm font-medium text-jira-blue-bold hover:underline">{project.name}</Link>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg premium-gradient text-xs font-bold text-white shadow-sm">{project.keyCode?.[0] || project.name?.[0]}</div>
+          <Link to={`/projects/${project.id}/board`} className="text-sm font-bold text-[var(--text-primary)] hover:text-jira-blue transition-colors">{project.name}</Link>
         </div>
       </td>
-      <td className="px-3 py-3 text-sm text-jira-text-subtle font-mono">{project.keyCode}</td>
-      <td className="px-3 py-3 text-sm text-jira-text"><div className="flex items-center gap-2"><Avatar name={project.lead?.name || ''} color={project.lead?.avatarColor || '#0C66E4'} size={20} />{project.lead?.name}</div></td>
-      <td className="px-3 py-3"><AvatarGroup users={project.members || []} max={3} /></td>
-      <td className="px-3 py-3">
+      <td className="px-6 py-4 text-xs text-[var(--text-secondary)] font-mono font-bold">{project.keyCode}</td>
+      <td className="px-6 py-4 text-sm text-[var(--text-primary)]">
         <div className="flex items-center gap-2">
-          <div className="h-1 w-28 rounded-full bg-jira-overlay"><div className="h-1 rounded-full bg-jira-blue-bold" style={{ width: `${progress}%` }} /></div>
-          <span className="text-xs text-jira-text-subtle">{project.doneIssues}/{project.totalIssues}</span>
+          <Avatar name={project.lead?.name || ''} color={project.lead?.avatarColor || '#0C66E4'} size={24} />
+          <span className="font-medium">{project.lead?.name}</span>
         </div>
       </td>
-      <td className="px-3 py-3 text-sm text-jira-text-subtle">{formatDistanceToNow(new Date(project.updatedAt || project.createdAt), { addSuffix: true })}</td>
+      <td className="px-6 py-4"><AvatarGroup users={project.members || []} max={4} /></td>
+      <td className="px-6 py-4">
+        <div className="flex flex-col gap-1.5 min-w-[120px]">
+          <div className="flex items-center justify-between text-[10px] font-bold text-[var(--text-secondary)]">
+            <span>{progress}%</span>
+            <span>{project.doneIssues}/{project.totalIssues}</span>
+          </div>
+          <div className="h-1.5 w-full rounded-full bg-[var(--bg-secondary)] overflow-hidden">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              className="h-full premium-gradient" 
+            />
+          </div>
+        </div>
+      </td>
+      <td className="px-6 py-4 text-xs text-[var(--text-secondary)] font-medium">
+        {formatDistanceToNow(new Date(project.updatedAt || project.createdAt), { addSuffix: true })}
+      </td>
     </motion.tr>
   )
 }
