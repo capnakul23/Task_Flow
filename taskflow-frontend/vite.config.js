@@ -9,7 +9,8 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'dist',
+    outDir: '../taskflow-backend/src/main/resources/static',
+    emptyOutDir: true,
     rollupOptions: {
       output: {
         manualChunks: {
