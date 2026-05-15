@@ -15,7 +15,14 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:3000"));
+        config.setAllowedOriginPatterns(Arrays.asList(
+            "http://localhost:5173", 
+            "http://localhost:3000", 
+            "https://*.up.railway.app", 
+            "https://*.railway.app", 
+            "https://*.vercel.app",
+            "https://*.netlify.app"
+        ));
         config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 
