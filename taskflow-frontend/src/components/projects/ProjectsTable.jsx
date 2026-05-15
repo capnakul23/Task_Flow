@@ -15,7 +15,7 @@ export default function ProjectsTable({ projects = [], loading = false, onCreate
             {['Name', 'Key', 'Lead', 'Members', 'Progress', 'Last updated'].map((heading) => <th key={heading} className="border-b border-jira-border px-3 py-2 font-semibold">{heading}</th>)}
           </tr>
         </thead>
-        <tbody>{projects.map((project) => <ProjectRow key={project.id} project={project} />)}</tbody>
+        <tbody>{projects.map((project, i) => <ProjectRow key={project.id} project={project} index={i} />)}</tbody>
       </table>
     </div>
   )

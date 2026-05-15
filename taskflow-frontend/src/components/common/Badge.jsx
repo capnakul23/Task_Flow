@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { ArrowDown, ArrowRight, ArrowUp, Bug, CheckSquare2, Bookmark } from 'lucide-react'
 
 export const STATUS_LABELS = {
@@ -12,7 +13,14 @@ export function StatusBadge({ status }) {
     IN_PROGRESS: 'bg-jira-blue-bg text-jira-blue-bold',
     DONE: 'bg-jira-green-bg text-jira-green-bold'
   }
-  return <span className={`inline-flex rounded px-2 py-0.5 text-xs font-bold uppercase ${classes[status]}`}>{STATUS_LABELS[status]}</span>
+  return (
+    <motion.span 
+      whileHover={{ scale: 1.05 }}
+      className={`inline-flex cursor-default rounded px-2 py-0.5 text-xs font-bold uppercase transition-shadow hover:shadow-sm ${classes[status]}`}
+    >
+      {STATUS_LABELS[status]}
+    </motion.span>
+  )
 }
 
 export function IssueTypeIcon({ type, className = 'h-4 w-4' }) {

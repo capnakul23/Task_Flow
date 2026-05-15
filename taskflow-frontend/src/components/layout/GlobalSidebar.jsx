@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { useLocation, Link } from 'react-router-dom'
 import { Home, LayoutGrid, Users, Settings, LogOut } from 'lucide-react'
 import { useState } from 'react'
@@ -31,34 +32,39 @@ export default function GlobalSidebar() {
 
   return (
     <aside className="fixed left-0 top-0 z-50 hidden h-screen w-14 flex-col items-center border-r border-jira-border bg-jira-sidebar py-2 md:flex">
-      <Link to="/projects" className="flex h-10 w-10 items-center justify-center rounded bg-jira-blue text-lg font-bold text-white">T</Link>
+      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+        <Link to="/projects" className="flex h-10 w-10 items-center justify-center rounded bg-jira-blue text-lg font-bold text-white shadow-lg shadow-jira-blue/20">T</Link>
+      </motion.div>
       <nav className="mt-2 flex flex-col items-center gap-1">
         {navItems.map(({ to, icon: Icon, label }) => {
           const active = location.pathname.startsWith(to)
           return (
-            <Link
-              key={label}
-              to={to}
-              title={label}
-              className={`flex h-10 w-10 items-center justify-center rounded ${active ? 'bg-jira-blue-bg text-jira-blue-bold' : 'text-jira-text-subtle hover:bg-jira-sidebar-icon hover:text-jira-text'}`}
-            >
-              <Icon size={18} />
-            </Link>
+            <motion.div key={label} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                to={to}
+                title={label}
+                className={`flex h-10 w-10 items-center justify-center rounded transition-colors ${active ? 'bg-jira-blue-bg text-jira-blue-bold' : 'text-jira-text-subtle hover:bg-jira-sidebar-icon hover:text-jira-text'}`}
+              >
+                <Icon size={18} />
+              </Link>
+            </motion.div>
           )
         })}
       </nav>
-      <div className="mt-auto pb-2">
-        <button onClick={onAvatarClick} className="rounded-full">
+      <div className="mt-auto pb-2 flex flex-col items-center gap-1">
+        <motion.button onClick={onAvatarClick} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="rounded-full shadow-md">
           <Avatar name={user?.name || 'TaskFlow User'} size={32} color={user?.avatarColor || '#0C66E4'} />
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           type="button"
           onClick={logout}
           title="Sign out"
-          className="mt-2 flex h-10 w-10 items-center justify-center rounded text-jira-text-subtle hover:bg-jira-sidebar-icon hover:text-jira-text"
+          whileHover={{ scale: 1.1, color: '#F87168' }}
+          whileTap={{ scale: 0.9 }}
+          className="mt-2 flex h-10 w-10 items-center justify-center rounded text-jira-text-subtle hover:bg-jira-sidebar-icon"
         >
           <LogOut size={18} />
-        </button>
+        </motion.button>
       </div>
       <Dropdown isOpen={open} onClose={() => setOpen(false)} triggerRect={rect}>
         <button className="flex w-full items-center gap-2 px-3 py-2 text-sm text-jira-text hover:bg-jira-overlay" onClick={() => setOpen(false)}>

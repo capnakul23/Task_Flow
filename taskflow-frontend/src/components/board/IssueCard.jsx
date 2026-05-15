@@ -2,14 +2,22 @@ import { motion } from 'framer-motion'
 import Avatar from '../common/Avatar'
 import { IssueTypeIcon, PriorityIcon } from '../common/Badge'
 
-export default function IssueCard({ issue, onClick }) {
+export default function IssueCard({ issue, onClick, index = 0 }) {
   return (
     <motion.div
-      initial={{ y: 4, opacity: 0 }}
+      initial={{ y: 10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.15 }}
+      whileHover={{ scale: 1.02, y: -2 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ 
+        duration: 0.2, 
+        type: 'spring', 
+        stiffness: 300, 
+        damping: 20,
+        delay: index * 0.05
+      }}
       onClick={onClick}
-      className="cursor-pointer rounded border border-jira-border bg-jira-surface p-3 transition-colors duration-150 hover:border-jira-blue-bold hover:bg-jira-elevated"
+      className="cursor-pointer rounded border border-jira-border bg-jira-surface p-3 transition-colors duration-150 hover:border-jira-blue-bold hover:shadow-md"
     >
       <div className="line-clamp-2 text-sm text-jira-text">{issue.title}</div>
       <div className="mt-2 flex items-center justify-between gap-2 text-[11px] text-jira-text-subtle">

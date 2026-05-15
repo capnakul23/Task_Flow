@@ -1,13 +1,19 @@
+import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import Avatar from '../common/Avatar'
 import AvatarGroup from '../common/AvatarGroup'
 import { formatDistanceToNow } from 'date-fns'
 
-export default function ProjectRow({ project }) {
+export default function ProjectRow({ project, index = 0 }) {
   const progress = project.totalIssues ? Math.round((project.doneIssues / project.totalIssues) * 100) : 0
 
   return (
-    <tr className="border-b border-jira-border hover:bg-jira-surface">
+    <motion.tr 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05, duration: 0.3 }}
+      className="border-b border-jira-border transition-colors hover:bg-jira-surface"
+    >
       <td className="px-3 py-3">
         <div className="flex items-center gap-3">
           <div className="flex h-7 w-7 items-center justify-center rounded bg-jira-blue text-xs font-bold text-white">{project.keyCode?.[0] || project.name?.[0]}</div>

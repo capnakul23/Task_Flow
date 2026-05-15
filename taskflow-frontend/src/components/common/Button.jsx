@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import Spinner from './Spinner'
 
 const variants = {
@@ -15,13 +16,15 @@ const sizes = {
 
 export default function Button({ variant = 'primary', size = 'md', loading = false, icon, disabled, children, ...props }) {
   return (
-    <button
+    <motion.button
       {...props}
       disabled={disabled || loading}
-      className={`inline-flex items-center justify-center gap-2 rounded font-medium transition-all duration-100 active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]}`}
+      whileHover={disabled || loading ? {} : { scale: 1.02 }}
+      whileTap={disabled || loading ? {} : { scale: 0.96 }}
+      className={`inline-flex items-center justify-center gap-2 rounded font-medium disabled:opacity-60 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]}`}
     >
       {loading ? <Spinner size={14} /> : icon}
       {children}
-    </button>
+    </motion.button>
   )
 }

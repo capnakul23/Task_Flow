@@ -10,25 +10,33 @@ export default function Modal({ isOpen, onClose, title, children }) {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [isOpen, onClose])
 
-  if (!isOpen) return null
   return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.96 }}
+      {isOpen && (
+        <motion.div 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          exit={{ opacity: 0 }} 
           transition={{ duration: 0.2 }}
-          className="w-full max-w-lg rounded-lg border border-jira-border bg-jira-elevated p-6 shadow-none"
-          onClick={(event) => event.stopPropagation()}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" 
+          onClick={onClose}
         >
-          <div className="mb-4 flex items-center justify-between">
-            <div className="text-base font-semibold text-jira-text">{title}</div>
-            <button className="rounded p-1 text-jira-text-subtle hover:bg-jira-overlay" onClick={onClose}><X size={18} /></button>
-          </div>
-          {children}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="w-full max-w-lg rounded-xl border border-jira-border bg-jira-elevated p-6 shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mb-4 flex items-center justify-between">
+              <div className="text-base font-semibold text-jira-text">{title}</div>
+              <button className="rounded-full p-1.5 text-jira-text-subtle transition-colors hover:bg-jira-overlay hover:text-white" onClick={onClose}><X size={18} /></button>
+            </div>
+            {children}
+          </motion.div>
         </motion.div>
-      </div>
+      )}
     </AnimatePresence>,
     document.body
   )
