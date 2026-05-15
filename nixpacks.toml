@@ -5,7 +5,7 @@ nixPkgs = ["nodejs_20", "jdk21", "maven"]
 cmds = ["cd taskflow-frontend && npm install"]
 
 [phases.build]
-cmds = ["cd taskflow-frontend && npm run build", "cd taskflow-backend && mvn clean package -DskipTests"]
+cmds = ["cd taskflow-frontend && npm run build", "cd taskflow-backend && mvn clean package -DskipTests", "cp taskflow-backend/target/taskflow-backend-0.0.1-SNAPSHOT.jar ./app.jar"]
 
 [start]
-cmd = "java -jar taskflow-backend/target/taskflow-backend-0.0.1-SNAPSHOT.jar"
+cmd = "java -jar app.jar"
