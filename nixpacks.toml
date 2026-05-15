@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ["nodejs_20", "jdk21", "maven"]
+
+[phases.install]
+cmds = ["cd taskflow-frontend && npm install"]
+
+[phases.build]
+cmds = ["cd taskflow-frontend && npm run build", "cd taskflow-backend && mvn clean package -DskipTests"]
+
+[start]
+cmd = "java -jar taskflow-backend/target/*.jar"
