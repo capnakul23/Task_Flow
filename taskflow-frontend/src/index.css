@@ -4,39 +4,40 @@
 
 :root {
   --bg-primary: #ffffff;
-  --bg-secondary: #f4f5f7;
+  --bg-secondary: #f8f9fa;
   --bg-elevated: #ffffff;
-  --border-color: #dfe1e6;
-  --text-primary: #172b4d;
-  --text-secondary: #6b778c;
-  --accent-blue: #0052cc;
-  --accent-purple: #6554c0;
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.4);
+  --border-color: #e5e7eb;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --accent-blue: #2563eb;
+  --accent-purple: #7c3aed;
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(0, 0, 0, 0.1);
 }
 
 .dark {
-  --bg-primary: #0A0D14;
-  --bg-secondary: #161B22;
-  --bg-elevated: #1D2129;
-  --border-color: #2C333A;
-  --text-primary: #B6C2CF;
-  --text-secondary: #8C9BAB;
-  --accent-blue: #579DFF;
-  --accent-purple: #9F8FEF;
-  --glass-bg: rgba(29, 33, 41, 0.7);
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-elevated: #1e293b;
+  --border-color: #334155;
+  --text-primary: #f8f9fa;
+  --text-secondary: #94a3b8;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --glass-bg: rgba(15, 23, 42, 0.9);
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 @layer components {
   .glass-card {
-    @apply backdrop-blur-md border shadow-lg;
+    @apply border shadow-sm transition-all duration-200;
     background: var(--glass-bg);
-    border-color: var(--glass-border);
+    border-color: var(--border-color);
+    border-radius: 0px; /* SHARP EDGES */
   }
 
   .premium-gradient {
-    @apply bg-gradient-to-br from-jira-blue to-jira-purple;
+    @apply bg-slate-900; /* Sophisticated solid or very subtle gradient */
   }
 }
 
@@ -52,9 +53,14 @@ body {
   @apply bg-[var(--bg-primary)] transition-colors duration-300;
   margin: 0;
   color: var(--text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+  font-family: 'Inter', -apple-system, sans-serif;
   font-size: 14px;
   line-height: 1.5;
+  border-radius: 0 !important;
+}
+
+button, div, input, table, tr, td, th {
+  border-radius: 0 !important; /* GLOBAL SHARP EDGES */
 }
 
 ::-webkit-scrollbar {

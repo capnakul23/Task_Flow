@@ -33,19 +33,19 @@ export default function GlobalSidebar() {
   }
 
   return (
-    <aside className="fixed left-0 top-0 z-50 hidden h-screen w-14 flex-col items-center border-r border-[var(--border-color)] bg-[var(--bg-elevated)]/80 backdrop-blur-xl py-2 md:flex">
+    <aside className="fixed left-0 top-0 z-50 hidden h-screen w-14 flex-col items-center border-r border-[var(--border-color)] bg-[var(--bg-elevated)] py-2 md:flex">
       <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-        <Link to="/projects" className="flex h-10 w-10 items-center justify-center rounded premium-gradient text-lg font-bold text-white shadow-lg shadow-jira-blue/20">T</Link>
+        <Link to="/projects" className="flex h-10 w-10 items-center justify-center bg-slate-900 text-lg font-bold text-white shadow-sm">T</Link>
       </motion.div>
       <nav className="mt-2 flex flex-col items-center gap-1">
         {navItems.map(({ to, icon: Icon, label }) => {
           const active = location.pathname.startsWith(to)
           return (
-            <motion.div key={label} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div key={label} whileHover={{ x: 2 }} whileTap={{ scale: 0.95 }}>
               <Link
                 to={to}
                 title={label}
-                className={`flex h-10 w-10 items-center justify-center rounded transition-all duration-300 ${active ? 'bg-jira-blue text-white shadow-md' : 'text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]'}`}
+                className={`flex h-10 w-10 items-center justify-center transition-all duration-200 ${active ? 'bg-slate-900 text-white shadow-md' : 'text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)]'}`}
               >
                 <Icon size={18} />
               </Link>
@@ -56,22 +56,22 @@ export default function GlobalSidebar() {
       <div className="mt-auto pb-2 flex flex-col items-center gap-1">
         <motion.button 
           onClick={toggleTheme}
-          whileHover={{ scale: 1.1, rotate: 15 }}
+          whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="flex h-10 w-10 items-center justify-center rounded text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
+          className="flex h-10 w-10 items-center justify-center text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
         >
           {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
         </motion.button>
-        <motion.button onClick={onAvatarClick} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="rounded-full shadow-md mt-1">
+        <motion.button onClick={onAvatarClick} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="shadow-md mt-1">
           <Avatar name={user?.name || 'TaskFlow User'} size={32} color={user?.avatarColor || '#0C66E4'} />
         </motion.button>
         <motion.button
           type="button"
           onClick={logout}
           title="Sign out"
-          whileHover={{ scale: 1.1, color: '#F87168' }}
+          whileHover={{ scale: 1.1, color: '#ef4444' }}
           whileTap={{ scale: 0.9 }}
-          className="mt-2 flex h-10 w-10 items-center justify-center rounded text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
+          className="mt-2 flex h-10 w-10 items-center justify-center text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
         >
           <LogOut size={18} />
         </motion.button>
