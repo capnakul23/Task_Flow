@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+MAVEN_HOME=${MAVEN_HOME:-}
+DIRNAME=$(dirname "$0")
+java -version >/dev/null 2>&1 || echo "Ensure Java is installed"
+exec "${DIRNAME}/.mvn/wrapper/mvnw" "$@"
