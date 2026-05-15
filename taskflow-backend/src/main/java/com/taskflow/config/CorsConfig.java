@@ -17,6 +17,7 @@ public class CorsConfig {
         config.setAllowCredentials(true);
         config.setAllowedOriginPatterns(Arrays.asList(
             "http://localhost:5173", 
+            "http://localhost:5174", 
             "http://localhost:3000", 
             "https://*.up.railway.app", 
             "https://*.railway.app", 
